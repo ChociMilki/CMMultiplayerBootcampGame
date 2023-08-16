@@ -28,6 +28,23 @@ public class PlayerShoot : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void RequestShootServerRPC()
+    {
+        if (Input.GetKeyDown(shootInput)) ;
+            {
+
+            if (!IsServer && IsLocalPlayer)
+            {
+                Shoot(); 
+            }
+            else if (!IsClient && IsLocalPlayer)
+            {
+                RequestShootServerRPC(); 
+            }
+        }
+    }
+
     private void Shoot()
     {
         GameObject tempBullet = Instantiate(bullet, shootPoint.position, shootPoint.rotation);
